@@ -2,7 +2,7 @@
 #_user_support_available_at:NMFS.Stock.Synthesis@noaa.gov
 #_user_info_available_at:https://vlab.ncep.noaa.gov/group/stock-synthesis
 BET-EPO.dat
-BET-EPO.ctl
+control.ss_new
 0 # 0=use init values in control file; 1=use ss.par
 1 # run display detail (0,1,2)
 1 # detailed age-structured reports in REPORT.SSO (0=low,1=high,2=low for data-limited) 

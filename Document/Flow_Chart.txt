@@ -1,2 +1,0 @@
-Pre-steps: update catch, cpue, and length comp data
-Step1 (Update_Data.R): Update the ss files and write in a new folder

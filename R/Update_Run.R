@@ -1,8 +1,8 @@
 library(r4ss)
 
 Dir <- "D:/OneDrive - IATTC/IATTC/2020/BET assessment/SS Model/"
-NewDir <- "D:/OneDrive - IATTC/IATTC/2021/UpdateAssessment/"
-SSDir <- "D:/OneDrive - IATTC/Git/UpdateAssessment/Document/"
+NewDir <- "D:/OneDrive - IATTC/IATTC/2021/UpdateAssessment/SS/"
+SSDir <- "D:/OneDrive - IATTC/Git/UpdateAssessment/Document/Update/"
 model <- c("R","RG","RM","RS","G","M1","M2","S","L","LG","LM","LS")
 model_name <- c("R","R-GC","R-MA","R-DS","GC","MJ","MA","DS","L","L-GC","L-MA","L-DS")
 model_name2 <- c("Env-Fix","Env-Gro","Env-Mrt","Env-Sel","Gro","Mov","Mrt","Sel","Srt-Fix","Srt-Gro","Srt-Mrt","Srt-Sel")
@@ -12,10 +12,11 @@ converge <- matrix(1,nrow=length(model),ncol=length(steepness))
 converge[1,2:4] <- 0
 converge[9,4] <- 0
 
-for (m in 1:12) {
+for (m in 1:1) {
   for (s in 1:1) {
     Path <- paste0(Dir,model[m],"-",toString(steepness[s]))
     NewPath <- paste0(NewDir,model[m],"-",toString(steepness[s]))
+    print(NewPath)
     
     if (converge[m, s]) {
       # copy old SS files to the new folder
@@ -25,7 +26,7 @@ for (m in 1:12) {
         paste0(SSDir, "/go_nohess.bat"),
         paste0(SSDir, "/starter.ss"),
         paste0(SSDir, "/forecast.ss"),
-        paste0(Path, "/BET-EPO.ctl"),
+        paste0(Path, "/control.ss_new"),
         paste0(Path, "/BET-EPO.dat"),
         paste0(SSDir, "/ss.exe")
       )
@@ -43,6 +44,7 @@ for (m in 1:12) {
     command <- paste("cd", NewPath, "& go_noHess.bat", sep = " ")
     ss <- shell(cmd = command, intern = T, wait = T)
     
+    print(ss[38]) # final gradient
   }
 }
 
