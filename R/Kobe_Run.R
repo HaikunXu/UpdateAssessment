@@ -1,7 +1,10 @@
+# tested on Sep. 8 2021
+# the starter file needs to be put in the Kobe folder before running this code
+
 library(IATTCassessment)
 
-Dir <- "C:/Users/hkxu/OneDrive - IATTC/IATTC/2021/UpdateAssessment/SS/"
-KobeDir <- "C:/Users/hkxu/OneDrive - IATTC/IATTC/2021/UpdateAssessment/SS/Kobe/"
+Dir <- "D:/OneDrive - IATTC/IATTC/2021/UpdateAssessment/SS/"
+KobeDir <- "D:/OneDrive - IATTC/IATTC/2021/UpdateAssessment/SS/Kobe/"
 DynamicDir <- "D:/OneDrive - IATTC/IATTC/2021/UpdateAssessment/SS(dmsy)/"
 # lyear <- 2019 # last year
 FFleets <- c(1:23) # fishery fleets
@@ -13,12 +16,14 @@ converge <- matrix(1,nrow=length(model),ncol=length(steepness))
 converge[1,2:4] <- 0
 converge[9,4] <- 0
 
+dir.create(KobeDir)
+
 for (m in 1:1) {
   for (s in 1:1) {
     if(converge[m,s]) {
       Path <- paste0(Dir,model[m],"-",toString(steepness[s]),"/")
-      KobePath <- paste0(KobeDir,model_name[m],"-",toString(steepness[s]),"/")
-      DynamicPath <- paste0(DynamicDir,model_name[m],"-",toString(steepness[s]),"/")
+      KobePath <- paste0(KobeDir,model[m],"-",toString(steepness[s]),"/")
+      DynamicPath <- paste0(DynamicDir,model[m],"-",toString(steepness[s]),"/")
       print(Path)
       # fyear <- ifelse(m %in% seq(5,8), 2000, 1979) # first year
       # step 1: copy ss file
