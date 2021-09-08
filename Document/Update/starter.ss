@@ -2,7 +2,7 @@
 #_user_support_available_at:NMFS.Stock.Synthesis@noaa.gov
 #_user_info_available_at:https://vlab.ncep.noaa.gov/group/stock-synthesis
 BET-EPO.dat
-control.ss_new
+BET-EPO.ctl
 0 # 0=use init values in control file; 1=use ss.par
 1 # run display detail (0,1,2)
 1 # detailed age-structured reports in REPORT.SSO (0=low,1=high,2=low for data-limited) 
@@ -12,7 +12,7 @@ control.ss_new
 0 # Include prior_like for non-estimated parameters (0,1) 
 1 # Use Soft Boundaries to aid convergence (0,1) (recommended)
 1 # Number of datafiles to produce: 1st is input, 2nd is estimates, 3rd and higher are bootstrap
-100 # Turn off estimation for parameters entering after this phase
+10 # Turn off estimation for parameters entering after this phase
 10 # MCeval burn interval
 2 # MCeval thin interval
 0 # jitter initial parm value by this fraction

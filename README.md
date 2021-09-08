@@ -18,7 +18,7 @@ The R code for updating bigeye assessment
 
 -   Update SS files based on new data
 
--   Run the new SS model for Fstd
+-   Run the new SS model for Flimit
 
 ### Update_Fstd.R
 
@@ -26,7 +26,7 @@ The R code for updating bigeye assessment
 
 -   Update SS files based on new data
 
--   Run the new SS model for Flimit
+-   Run the new SS model for Fstd
 
 ### Update_dmsy.R
 
@@ -34,4 +34,12 @@ The R code for updating bigeye assessment
 
 -   Update SS files based on new data
 
--   Run the new SS model for Flimit
+-   Run the new SS model for dmsy
+
+### Kobe_Run.R
+
+-   Create a new folder for SS files
+
+-   Update SS files based on new data
+
+-   Run the new SS model for dmsy
