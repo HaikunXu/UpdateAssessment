@@ -34,7 +34,7 @@ for (m in 1:length(model)) {
                            "SB_low"=Kobe.Out$STD$SB[1],
                            "SB"=Kobe.Out$STD$SB[2],
                            "SB_high"=Kobe.Out$STD$SB[3],
-                           "Model"=model_name[m],
+                           "Model"=model[m],
                            "Steepness"=steepness[s])
       }
       else {
@@ -44,7 +44,7 @@ for (m in 1:length(model)) {
                                       "SB_low"=Kobe.Out$STD$SB[1],
                                       "SB"=Kobe.Out$STD$SB[2],
                                       "SB_high"=Kobe.Out$STD$SB[3],
-                                      "Model"=model_name[m],
+                                      "Model"=model[m],
                                       "Steepness"=steepness[s]))
       }
     }
@@ -52,6 +52,9 @@ for (m in 1:length(model)) {
 }
 
 Mgmt$Steepness <- as.factor(Mgmt$Steepness)
+
+write.csv(Mgmt,file=paste0(Dir,"Mgmt.csv"),row.names = FALSE)
+
 
 d=data.frame(x1=c(0,0,1,1), x2=c(1,1,4,4), y1=c(0,1,1,0), y2=c(1,4,4,1), r=c(1,2,3,4))
 limit <- data.frame("F"=1.787855, "SB"=0.353868)

@@ -1,8 +1,8 @@
 library(r4ss)
 
-Dir <- "D:/OneDrive - IATTC/IATTC/2021/UpdateAssessment/SS/"
-NewDir <- "D:/OneDrive - IATTC/IATTC/2021/UpdateAssessment/SS(Fstd)/"
-SSDir <- "D:/OneDrive - IATTC/Git/UpdateAssessment/Document/Fstd/"
+Dir <- "C:/Users/hkxu/OneDrive - IATTC/IATTC/2021/UpdateAssessment/SS/"
+NewDir <- "C:/Users/hkxu/OneDrive - IATTC/IATTC/2021/UpdateAssessment/SS(Fstd)/"
+SSDir <- "C:/Users/hkxu/OneDrive - IATTC/Git/UpdateAssessment/Document/Fstd/"
 model <- c("Env-Fix","Env-Gro","Env-Mrt","Env-Sel","Gro","Mov","Mrt","Sel","Srt-Fix","Srt-Gro","Srt-Mrt","Srt-Sel")
 steepness <- seq(1,0.7,-0.1)
 

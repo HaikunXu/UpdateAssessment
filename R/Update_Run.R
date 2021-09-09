@@ -15,7 +15,7 @@ converge <- matrix(1,nrow=length(model),ncol=length(steepness))
 converge[1,2:4] <- 0
 converge[9,4] <- 0
 
-for (m in 1:12) {
+for (m in 3) {
   for (s in 3) {
     if (converge[m, s]) {
       Path <- paste0(Dir,model[m],"-",toString(steepness[s]))
@@ -67,24 +67,28 @@ for (m in 1:12) {
     
     # check the max gradient
     myreplist <- SS_output(dir=NewPath,ncols=400,covar=F,verbose = FALSE, printstats = FALSE)
-    if (myreplist$maximum_gradient_component<0.1) {
-      print(paste0("Max gradient = ",myreplist$maximum_gradient_component))
-    }
-    else {
-      starterFile <- readLines(paste0(NewPath, "/starter.ss"), warn = F)
-      starterFile[6] <- toString(1) # start from initial condition
-      writeLines(starterFile, paste0(NewPath, "/starter.ss"))
-      
-      print(paste0("Try 1: Max gradient = ",myreplist$maximum_gradient_component))
-      
-      command <- paste("cd", NewPath, "& go_noHess.bat", sep = " ")
-      ss <- shell(cmd = command, intern = T, wait = T)
-      print(paste0("Try 2: Max gradient = ",myreplist$maximum_gradient_component))
-    }
+    print(paste0("Max gradient = ",myreplist$maximum_gradient_component))
+    # }
+    # else {
+    #   starterFile <- readLines(paste0(NewPath, "/starter.ss"), warn = F)
+    #   starterFile[6] <- toString(1) # start from initial condition
+    #   writeLines(starterFile, paste0(NewPath, "/starter.ss"))
+    #   
+    #   print(paste0("Try 1: Max gradient = ",myreplist$maximum_gradient_component))
+    #   
+    #   command <- paste("cd", NewPath, "& go_noHess.bat", sep = " ")
+    #   ss <- shell(cmd = command, intern = T, wait = T)
+    #   
+    #   myreplist <- SS_output(dir=NewPath,ncols=400,covar=F,verbose = FALSE, printstats = FALSE)
+    #   print(paste0("Try 2: Max gradient = ",myreplist$maximum_gradient_component))
+    # }
     
-    print("Hessian Run")
-    command <- paste("cd", NewPath, "& go.bat", sep = " ")
-    ss <- shell(cmd = command, intern = T, wait = T)
+    if(myreplist$maximum_gradient_component < 0.1) {
+      print("Hessian Run")
+      command <- paste("cd", NewPath, "& go.bat", sep = " ")
+      ss <- shell(cmd = command, intern = T, wait = T)
+    }
+
     }
   }
 }
