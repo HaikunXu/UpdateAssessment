@@ -4,7 +4,7 @@ The R code for updating bigeye assessment
 
 ## Flow Chart of the code
 
-### Update_Run.R
+### 1: Update_Run.R
 
 -   Create a new folder for SS files
 
@@ -12,7 +12,7 @@ The R code for updating bigeye assessment
 
 -   Run the new SS model
 
-### Update_Flimit.R
+### 2: Update_Flimit.R
 
 -   Create a new folder for SS files
 
@@ -20,7 +20,7 @@ The R code for updating bigeye assessment
 
 -   Run the new SS model for Flimit
 
-### Update_Fstd.R
+### 2: Update_Fstd.R
 
 -   Create a new folder for SS files
 
@@ -28,7 +28,7 @@ The R code for updating bigeye assessment
 
 -   Run the new SS model for Fstd
 
-### Update_dmsy.R
+### 2: Update_dmsy.R
 
 -   Create a new folder for SS files
 
@@ -36,10 +36,16 @@ The R code for updating bigeye assessment
 
 -   Run the new SS model for dmsy
 
-### Kobe_Run.R
+### 3: Kobe_Run.R
 
 -   Create a new folder for SS files
 
--   Update SS files based on new data
+-   Run the Kobe code
 
--   Run the new SS model for dmsy
+### 3: Kobe_Plot.R
+
+-   Make the Kobe plot
+
+### 3: Management_Table.R
+
+-   The management table for the assessment report

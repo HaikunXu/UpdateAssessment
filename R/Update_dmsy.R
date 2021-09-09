@@ -15,7 +15,7 @@ converge[9,4] <- 0
 
 dir.create(NewDir)
 
-for (m in 1:1) {
+for (m in 1:3) {
   for (s in 1:1) {
     if (converge[m, s]) {
       Path <- paste0(Dir,model[m],"-",toString(steepness[s]))
@@ -38,7 +38,7 @@ for (m in 1:1) {
       ParDir <- paste0(Path, "/ss.par")
       ParFile <- readLines(ParDir, warn = F)
       
-      Rep <- r4ss::SS_output(dir = Path, ncols = 400, covar = T, printstats = F, verbose = FALSE)
+      Rep <- r4ss::SS_output(dir = Path, ncols = 400, covar = F, printstats = F, verbose = FALSE)
       Recruit <- Rep$recruit$dev[which(Rep$recruit$era=="Main")]
       bias_adjust <- -Rep$recruit$biasadjuster[which(Rep$recruit$era=="Main")]*0.6^2/2
       Recruit_forecast <- c(Recruit + bias_adjust,0)
