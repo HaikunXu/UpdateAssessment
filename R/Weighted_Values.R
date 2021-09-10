@@ -73,14 +73,13 @@ ggsave(f,file = paste0(Save_Dir, "faa_a.pdf"), width = 12, height = 15)
 # model-weighted reference points
 Mgmt <- read.csv(paste0(Save_Dir, "Mgmt.csv"))
 
-R <- Mgmt[,c(1,2,7,8)] %>% group_by(Model,Steepness) %>%
+# F
+R <- Mgmt %>% group_by(Model,Steepness) %>%
   summarise(Est=F,Std=(F-F_low)/1.96)
 
 R <- left_join(left_join(R,Weight_M),Weight_S) %>%
   group_by(Model) %>% mutate(Weight_S2=Weight_S/sum(Weight_S)) %>%
   mutate(Weight=Weight_M*Weight_S)
-
-sum(R$Est*R$Weight)
 
 # find the 2.5% and 97.5% quantiles
 
@@ -89,6 +88,38 @@ df <- pdf_cdf(R_series,R,n_model=44)
 plot(R_series,df$cdf)
 lines(R_series,df$pdf)
 
-Low <- R_series[which(abs(df$cdf-0.025)==min(abs(df$cdf-0.025)))]
-Medium <- R_series[which(abs(df$cdf-0.5)==min(abs(df$cdf-0.5)))]
-High <- R_series[which(abs(df$cdf-0.975)==min(abs(df$cdf-0.975)))]
+F_Low <- R_series[which(abs(df$cdf-0.025)==min(abs(df$cdf-0.025)))]
+F_Medium <- R_series[which(abs(df$cdf-0.5)==min(abs(df$cdf-0.5)))]
+F_High <- R_series[which(abs(df$cdf-0.975)==min(abs(df$cdf-0.975)))]
+
+PDF_F <- data.frame("value"=R_series, "pdf"=df$pdf, "key" = "F")
+
+# SB
+R <- Mgmt %>% group_by(Model,Steepness) %>%
+  summarise(Est=SB,Std=(SB-SB_low)/1.96)
+
+R <- left_join(left_join(R,Weight_M),Weight_S) %>%
+  group_by(Model) %>% mutate(Weight_S2=Weight_S/sum(Weight_S)) %>%
+  mutate(Weight=Weight_M*Weight_S)
+
+# find the 2.5% and 97.5% quantiles
+
+R_series <- seq(0,3,0.001)
+df <- pdf_cdf(R_series,R,n_model=44)
+plot(R_series,df$cdf)
+lines(R_series,df$pdf)
+
+SB_Low <- R_series[which(abs(df$cdf-0.025)==min(abs(df$cdf-0.025)))]
+SB_Medium <- R_series[which(abs(df$cdf-0.5)==min(abs(df$cdf-0.5)))]
+SB_High <- R_series[which(abs(df$cdf-0.975)==min(abs(df$cdf-0.975)))]
+
+PDF_SB <- data.frame("value"=R_series, "pdf"=df$pdf, "key" = "SB")
+
+# PDF <- rbind(PDF_F,PDF_SB)
+
+load(paste0(Save_Dir,"Kobe.RData"))
+Kobe2 <- Kobe +
+  geom_point(aes(x=value,y=pdf),data=PDF_SB,size=0.5) +
+  geom_point(aes(y=value,x=pdf),data=PDF_F,size=0.5)
+
+ggsave(Kobe2, file = paste0(Save_Dir, "Kobe plot2.png"), width = 10, height = 8)

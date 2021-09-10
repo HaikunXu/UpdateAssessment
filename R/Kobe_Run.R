@@ -6,6 +6,8 @@ library(IATTCassessment)
 Dir <- "D:/OneDrive - IATTC/IATTC/2021/UpdateAssessment/SS/"
 KobeDir <- "D:/OneDrive - IATTC/IATTC/2021/UpdateAssessment/SS/Kobe/"
 DynamicDir <- "D:/OneDrive - IATTC/IATTC/2021/UpdateAssessment/SS(dmsy)/"
+SSDir <- "D:/OneDrive - IATTC/Git/UpdateAssessment/Document/Kobe/"
+
 # lyear <- 2019 # last year
 FFleets <- c(1:23) # fishery fleets
 STD_only <- FALSE # Kobe table is generated
@@ -18,7 +20,7 @@ converge[9,4] <- 0
 
 dir.create(KobeDir)
 
-for (m in 1:1) {
+for (m in 1:3) {
   for (s in 1:1) {
     if(converge[m,s]) {
       Path <- paste0(Dir,model[m],"-",toString(steepness[s]),"/")
@@ -30,7 +32,7 @@ for (m in 1:1) {
       unlink(KobePath, recursive = TRUE, force = TRUE)
       dir.create(KobePath)
       files = c(paste0(Path, "/go_nohess.bat"),
-                paste0(KobeDir, "/starter.ss"),
+                paste0(SSDir, "/starter.ss"),
                 paste0(Path, "/forecast.ss"),
                 paste0(Path, "/BET-EPO.ctl"),
                 paste0(Path, "/BET-EPO.dat"),

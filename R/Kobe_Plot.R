@@ -16,13 +16,13 @@ lyear <- 2019 # last year
 FFleets <- c(1:23) # fishery fleets
 STD_only <- TRUE # no Kobe table is generated
 
-for (m in 1:length(model)) {
+for (m in 1:3) {
   if(m %in% 9:12) fyear <- 2000 # first year
-  for (s in 1:length(steepness)) {
+  for (s in 1:1) {
     BasePath <- paste0(Dir,model[m],"-",toString(steepness[s]),"/")
-    FstdPath <- paste0(FstdDir,model_name[m],"-",toString(steepness[s]),"/")
-    FlimitPath <- paste0(FlimitDir,model_name[m],"-",toString(steepness[s]),"/")
-    DynamicPath <- paste0(dMSYDir,model_name[m],"-",toString(steepness[s]),"/")
+    FstdPath <- paste0(FstdDir,model[m],"-",toString(steepness[s]),"/")
+    FlimitPath <- paste0(FlimitDir,model[m],"-",toString(steepness[s]),"/")
+    DynamicPath <- paste0(dMSYDir,model[m],"-",toString(steepness[s]),"/")
     KobePath=""
     print(BasePath)
     if(converge[m,s]) {
@@ -59,15 +59,15 @@ write.csv(Mgmt,file=paste0(Dir,"Mgmt.csv"),row.names = FALSE)
 d=data.frame(x1=c(0,0,1,1), x2=c(1,1,4,4), y1=c(0,1,1,0), y2=c(1,4,4,1), r=c(1,2,3,4))
 limit <- data.frame("F"=1.787855, "SB"=0.353868)
 
-ggplot(data=Mgmt) +
+Kobe <- ggplot(data=Mgmt) +
   geom_rect(data=d %>% filter(r==1), mapping=aes(xmin=x1, xmax=x2, ymin=y1, ymax=y2),fill="yellow", color="white", alpha=0.5) +
   geom_rect(data=d %>% filter(r==2), mapping=aes(xmin=x1, xmax=x2, ymin=y1, ymax=y2),fill="red", color="white", alpha=0.5) +
   geom_rect(data=d %>% filter(r==3), mapping=aes(xmin=x1, xmax=x2, ymin=y1, ymax=y2), fill="yellow",color="white", alpha=0.5) +
   geom_rect(data=d %>% filter(r==4), mapping=aes(xmin=x1, xmax=x2, ymin=y1, ymax=y2),  fill="green",color="white", alpha=0.5) +
   geom_point(aes(x=SB,y=F,color=Steepness,shape=Steepness),stroke = 2,size=2) +
   scale_shape_manual(values=c(1,2,4,5)) +
-  geom_errorbar(aes(x=SB,ymin=F_low, ymax=F_high,color=Steepness),width=0.01,alpha=0.5) +
-  geom_errorbarh(aes(xmin=SB_low,xmax=SB_high,y=F,color=Steepness),alpha=0.5) +
+  geom_errorbar(aes(x=SB,ymin=F_low, ymax=F_high,color=Steepness),width=0.01) +
+  geom_errorbarh(aes(xmin=SB_low,xmax=SB_high,y=F,color=Steepness),height=0.01) +
   geom_hline(yintercept = 1.787855,linetype="dashed",size=1) +
   geom_vline(xintercept = 0.353868,linetype="dashed",size=1) +
   scale_colour_manual(values = c("cyan","deepskyblue","blue","darkblue")) + # https://www.r-graph-gallery.com/ggplot2-color.html
@@ -78,7 +78,7 @@ ggplot(data=Mgmt) +
 
 ggsave(file = paste0(Dir, "Kobe plot.png"), width = 10, height = 8)
 ggsave(file = paste0(Dir, "Kobe plot.eps"), width = 10, height = 8, device = cairo_ps)
-write.csv(Mgmt,file = paste0(Dir,"Mgmt.csv"),row.names = FALSE)
+save(Kobe,file = paste0(Dir,"Kobe.RData"))
 
 # ##### add overall values
 # target <-  data.frame("F"=0.998, "F_low"=0.395,"F_high"=2.042,"SB"=0.917,"SB_low"=0.251,"SB_high"=2.515)
