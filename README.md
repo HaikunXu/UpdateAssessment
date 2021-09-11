@@ -49,3 +49,19 @@ The R code for updating bigeye assessment
 ### 3: Management_Table.R
 
 -   The management table for the assessment report
+
+### 3: Weighted_Values.R
+
+-   Model-weighted population attributes and reference points
+
+### 4: Jitter.R
+
+-   Jitter diagnostics
+
+### 4: Retro.R
+
+-   Retro diagnostics
+
+### 4: R0.R
+
+-   R0 diagnostics

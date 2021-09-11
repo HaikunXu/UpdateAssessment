@@ -30,7 +30,7 @@ for (m in 3) {
         paste0(SSDir, "/go.bat"),
         paste0(SSDir, "/starter.ss"),
         paste0(SSDir, "/forecast.ss"),
-        paste0(Path, "/BET-EPO.ctl"),
+        paste0(Path, "/control.ss_new"),
         paste0(Path, "/BET-EPO.dat"),
         paste0(SSDir, "/ss.exe")
       )
@@ -88,6 +88,7 @@ for (m in 3) {
       command <- paste("cd", NewPath, "& go.bat", sep = " ")
       ss <- shell(cmd = command, intern = T, wait = T)
     }
+    else (print("Check!!!"))
 
     }
   }

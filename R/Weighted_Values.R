@@ -116,9 +116,23 @@ SB_High <- R_series[which(abs(df$cdf-0.975)==min(abs(df$cdf-0.975)))]
 PDF_SB <- data.frame("value"=R_series, "pdf"=df$pdf, "key" = "SB")
 
 # PDF <- rbind(PDF_F,PDF_SB)
+d=data.frame(x1=c(0,0,1,1), x2=c(1,1,4,4), y1=c(0,1,1,0), y2=c(1,4,4,1), r=c(1,2,3,4))
+limit <- data.frame("F"=1.787855, "SB"=0.353868)
 
-load(paste0(Save_Dir,"Kobe.RData"))
-Kobe2 <- Kobe +
+Kobe2 <- ggplot(data=Mgmt) +
+  geom_rect(data=d %>% filter(r==1), mapping=aes(xmin=x1, xmax=x2, ymin=y1, ymax=y2),fill="yellow", color="white", alpha=0.5) +
+  geom_rect(data=d %>% filter(r==2), mapping=aes(xmin=x1, xmax=x2, ymin=y1, ymax=y2),fill="red", color="white", alpha=0.5) +
+  geom_rect(data=d %>% filter(r==3), mapping=aes(xmin=x1, xmax=x2, ymin=y1, ymax=y2), fill="yellow",color="white", alpha=0.5) +
+  geom_rect(data=d %>% filter(r==4), mapping=aes(xmin=x1, xmax=x2, ymin=y1, ymax=y2),  fill="green",color="white", alpha=0.5) +
+  geom_point(aes(x=SB_Medium,y=F_Medium),stroke = 2,size=4) +
+  geom_errorbar(aes(x=SB_Medium,ymin=F_Low, ymax=F_High),width=0.2,size=1) +
+  geom_errorbarh(aes(xmin=SB_Low,xmax=SB_High,y=F_Medium),height=0.2,size=1) +
+  geom_hline(yintercept = 1.787855,linetype="dashed",size=1) +
+  geom_vline(xintercept = 0.353868,linetype="dashed",size=1) +
+  theme_bw(18) +
+  xlab("S/Smsy") +
+  ylab("F/Fmsy") +
+  coord_cartesian(xlim = c(0,3), ylim = c(0,3), expand = FALSE) +
   geom_point(aes(x=value,y=pdf),data=PDF_SB,size=0.5) +
   geom_point(aes(y=value,x=pdf),data=PDF_F,size=0.5)
 
