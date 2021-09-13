@@ -42,6 +42,14 @@ for (m in 1:1) {
                  CallType = "shell",
                  extras = "-nox -cbs 4000000000 -gbs 4000000000 -ams 400000000 -maxfn 20000 -nohess")
       
+      retroModels <- SSgetoutput(dirvec=file.path(RetroPath, "retrospectives",paste("retro",seq(0,-20,-4),sep="")))
+      retroSummary <- SSsummarize(retroModels)
+      endyrvec <- retroSummary$endyrs + seq(0,-20,-4)
+      SSplotComparisons(retroSummary, endyrvec=endyrvec, legendlabels=paste("Data",seq(0,-20,-4),"years"),
+                        plot = FALSE, print = TRUE, plotdir = RetroPath)
+      
+      SSmohnsrho(retroSummary, endyrvec = endyrvec, startyr = retroSummary$startyrs, verbose = TRUE)
+      
       }
   }
 }
