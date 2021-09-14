@@ -38,17 +38,22 @@ for (m in 1:1) {
         )
         file.copy(from = files, to = r0Path, overwrite = TRUE)
         
-        dat <- SS_readdat_3.30(file = paste0(r0Path, "/BET-EPO.dat"), verbose = FALSE)
-        ctl <- SS_readctl_3.30(
-          file = paste0(r0Path, "/control.ss_new"),
-          verbose = FALSE,
-          datlist = dat,
-          use_datlist = TRUE
-        )
-        
-        ctl$SR_parms$INIT[1] <- r
-        SS_writectl_3.30(ctl,outfile = paste0(r0Path, "/BET-EPO.ctl"),overwrite = TRUE,verbose = FALSE)
-        
+        if(r==R0) {
+          file.rename(paste0(r0Path, "/control.ss_new"),
+                      paste0(r0Path, "/BET-EPO.ctl"))
+        }
+        else {
+          dat <- SS_readdat_3.30(file = paste0(r0Path, "/BET-EPO.dat"), verbose = FALSE)
+          ctl <- SS_readctl_3.30(
+            file = paste0(r0Path, "/control.ss_new"),
+            verbose = FALSE,
+            datlist = dat,
+            use_datlist = TRUE
+          )
+          
+          ctl$SR_parms$INIT[1] <- r
+          SS_writectl_3.30(ctl,outfile = paste0(r0Path, "/BET-EPO.ctl"),overwrite = TRUE,verbose = FALSE)
+        }
         # run the model
         
         setwd(r0Path)

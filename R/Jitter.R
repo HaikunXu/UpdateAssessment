@@ -12,8 +12,8 @@ converge <- matrix(1,nrow=length(model),ncol=length(steepness))
 converge[1,2:4] <- 0
 converge[9,4] <- 0
 
-for (m in 4:6) {
-  for (s in 1:1) {
+for (m in 1:3) {
+  for (s in 4) {
     if(converge[m,s]) {
       Path <- paste0(Dir,model[m],"-",toString(steepness[s]),"/")
       JitterPath <- paste0(JitterDir,model[m],"-",toString(steepness[s]),"/")
@@ -30,12 +30,12 @@ for (m in 4:6) {
         paste0(Path, "/ss.par")
       )
       file.copy(from = files, to = JitterPath)
-      
+
       # start from the par file
       # starterFile <- readLines(paste0(JitterPath, "/starter.ss"), warn = F)
       # starterFile[6] <- toString(1) # start from initial condition
       # writeLines(starterFile, paste0(JitterPath, "/starter.ss"))
-      
+
       jit.likes <- SS_RunJitter(
         mydir = JitterPath,
         Njitter = numjitter,
@@ -48,18 +48,26 @@ for (m in 4:6) {
       profilesummary <- SSsummarize(profilemodels)
       # Likelihoods
       Tot_likelihood <- as.numeric(profilesummary[["likelihoods"]][1, 1:numjitter])
+      R0 <- as.numeric(profilesummary$pars[which(profilesummary$pars$Label=="SR_LN(R0)"), 1:numjitter])
       
       myreplist <- SS_output(dir=Path,ncols=400,covar=F,verbose = FALSE, printstats = FALSE)
       
       NLL <- data.frame("Jitter"=1:numjitter, 
                         "NLL"=Tot_likelihood, 
+                        "R0"= R0,
                         "NLL_Diff"=sign(Tot_likelihood-myreplist$likelihoods_used$values[1]))
       
-      f <- ggplot(data=NLL) +
+      f1 <- ggplot(data=NLL %>% filter(NLL<(20+myreplist$likelihoods_used$values[1]))) +
         geom_point(aes(x=Jitter,y=NLL,color=factor(NLL_Diff))) +
-        geom_hline(yintercept = myreplist$likelihoods_used$values[1])
-      ggsave(f,file=paste0(JitterDir,model[m],"-",toString(steepness[s]),".png"),width = 8,height=6)
-      }
+        geom_hline(yintercept = myreplist$likelihoods_used$values[1]) +
+        xlim(c(1,10))
+      f2 <- ggplot(data=NLL %>% filter(NLL<(20+myreplist$likelihoods_used$values[1]))) +
+        geom_point(aes(x=Jitter,y=R0,color=factor(NLL_Diff))) +
+        # geom_hline(yintercept = myreplist$likelihoods_used$values[1]) +
+        xlim(c(1,10))
+      library(patchwork)
+      ggsave(f1/f2,file=paste0(JitterDir,model[m],"-",toString(steepness[s]),".png"),width = 8,height=8)
+    }
   }
 }
 # 
